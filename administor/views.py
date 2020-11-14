@@ -9,15 +9,16 @@ class NoInputError(Exception):
     pass
 
 
-def get_website_name(json_info):
-    website_name = models.WebsiteSettings.objects.all()[0].websiteName
+def get_website_name(requests, json_info):
+    user = models.User.objects.get(name=requests.session['user'])
+    website_name = models.WebsiteSettings.objects.get(websiteUser=user).websiteName
     json_info['websiteName'] = website_name
     return json_info
 
 
 def get_modify_article_page(requests, post_id):
     json_info = {}
-    get_website_name(json_info)
+    get_website_name(requests, json_info)
     if 'user' not in requests.session:
         return HttpResponseRedirect("/admin")
     try:
@@ -34,7 +35,7 @@ def get_modify_article_page(requests, post_id):
 
 def get_admin_login_page(requests):
     json_info = {}
-    get_website_name(json_info)
+    get_website_name(requests, json_info)
     if 'user' not in requests.session:
         return render(requests, "admin/adminLogin.html", json_info)
     else:
@@ -61,7 +62,7 @@ def check_login(requests):
 
 def get_admin_page(requests):
     json_info = {}
-    get_website_name(json_info)
+    get_website_name(requests, json_info)
     if 'user' not in requests.session:
         return HttpResponseRedirect("/admin/Login")
     user = models.User.objects.get(name=requests.session['user'])

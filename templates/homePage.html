@@ -13,6 +13,11 @@
         <link rel="stylesheet" href="{% static 'css/pace.css' %}">
         <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 
+        <style>
+            .entry-meta span{
+                color: black;
+            }
+        </style>
         <!-- js -->
         <script src="{% static 'js/jquery-2.1.3.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -43,7 +48,7 @@
                                 <article class="post post-{{ post.id }}">
                                     <header class="entry-header">
                                         <h1 class="entry-title">
-                                            <a href="/articles/{{ post.id }}">{{ post.title}}</a>
+                                            <p>{{ post.title}}</p>
                                         </h1>
                                         <div class="entry-meta">
                                             <span class="post-category">{{ post.author.name}}</span>
@@ -57,7 +62,7 @@
                                     <div class="entry-content clearfix">
                                         <p>{{ post.excerpt }}</p>
                                         <div class="read-more cl-effect-14">
-                                            <a href="#" class="more-link">ENTER THE ARTICLE <span class="meta-nav">→</span></a>
+                                            <a href="/articles/{{ post.id }}" class="more-link">ENTER THE ARTICLE <span class="meta-nav">→</span></a>
                                         </div>
                                     </div>
                                 </article>

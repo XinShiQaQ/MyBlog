@@ -3,7 +3,8 @@ from migration import models
 
 
 # Create your views here.
-def get_home_page(request, name):
+def get_home_page(request, name="xinshi"):
+    print(name)
     try:
         user = models.User.objects.get(name=name)
         websiteSettings = models.WebsiteSettings.objects.get(websiteUser=user)
@@ -13,13 +14,14 @@ def get_home_page(request, name):
     website_name = websiteSettings.websiteName
     json_info = {
         'websiteName': website_name,
+        'name': name
     }
-
     posts = models.Post.objects.all()
     if posts is not None:
         json_info['posts'] = posts
 
     newest_posts = posts.order_by('-modifiedTime')
+    newest_posts = newest_posts[5] if len(newest_posts) >= 5 else newest_posts
     if newest_posts is not None:
         json_info['newest_posts'] = newest_posts
 

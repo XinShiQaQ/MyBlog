@@ -1,8 +1,8 @@
 from django.contrib import admin
-from django.urls import path,re_path
+from django.urls import path, re_path,include
 from . import views
 
 urlpatterns = [
-    re_path(r'(.*)', views.get_home_page),
-
+    path('', views.get_home_page),
+    re_path(r'^([^/]*)/$', views.get_home_page)
 ]
