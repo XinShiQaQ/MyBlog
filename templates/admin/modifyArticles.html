@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ websiteName }}</title>
+
+        <!-- meta -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- css -->
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/pace.css' %}">
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+        <style>
+            .up-toolbar{
+                padding: 0;
+                list-style: none;
+                font-size: 0;
+                margin: 50px auto 0;
+                width: 100%;
+                height: 50px;
+            }
+            .up-toolbar li{
+                display:inline-block;
+                margin-right:-1px;
+                line-height:20px;
+            }
+            .up-toolbar .website-name{
+                width: 20%;
+                color: black;
+                text-decoration: none;
+                text-align: left;
+                float: left;
+                font-size: 30px;
+            }
+            .up-toolbar .modify-articles{
+                width: 50%;
+                color: black;
+                text-decoration: none;
+                text-align: left;
+                float: left;
+                font-size: 25px;
+            }
+            .up-toolbar .quit{
+                width: 20%;
+                color: black;
+                text-decoration: none;
+                text-align: right;
+                float: right;
+                font-size:20px;
+            }
+            .up-toolbar li a{
+                font-family:"Times New Roman",Georgia,Serif;
+            }
+            .main-part div{
+                width: 40%;
+                margin: 10px 34%;
+            }
+            .main-part div input{
+                width: 60%;
+                margin-left: 10%;
+            }
+            .main-part div textarea{
+                width: 60%;
+                margin-left: 10%;
+            }
+            .main-part div span{
+                width: 60%;
+                margin-left: 10%;
+            }
+            .body input{
+                height: 400px;
+            }
+            .main-part{
+                margin-bottom: 50px;
+            }
+
+        </style>
+        <!-- js -->
+        <script src="{% static 'js/jquery-2.1.3.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/pace.min.js' %}"></script>
+        <script src="{% static 'js/modernizr.custom.js' %}"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <header id="site-header">
+                <div class="row">
+                    <ul class="up-toolbar">
+                        <li  class="website-name">
+                            <a href="/">{{ websiteName }}</a>
+                        </li>
+                        <li class="modify-articles">
+                            <a href="modifyArticles">撰写文章</a>
+                        </li>
+                        <li class="quit">
+                            <a href="quit">退出登录</a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+        </div>
+
+        <div class="main-part">
+            {% if not post %}
+                <form method="get" action="/admin/modifyConfirm/new">
+                <div class="title-input"><input type="text" name="title" placeholder="标题"></div>
+                <div class="body"><textarea name="body" cols="30" rows="10" placeholder="内容"></textarea></div>
+                <div class="excerpt"><input type="text" name="excerpt" placeholder="摘要"></div>
+                <div>
+                    <span>类别</span>
+                    <select name="category">
+                        {% if categories %}
+                            {% for category in categories %}
+                                <option value="{{ category.categoryName }}">{{ category.categoryName }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="tag"><input type="text" name="tags" placeholder="Tag"></div>
+                <div class="submit-btn"><input type="submit" id="submit-btn" value="确认修改"></div>
+                </form>
+            {% else %}
+                <form method="get" action="/admin/modifyConfirm/{{ post.id }}">
+                <div class="title-input"><input type="text" name="title" value="{{ post.title }}" placeholder="标题"></div>
+                    <div class="body"><textarea name="body" cols="30" rows="10" placeholder="内容" id="body">{{ post.body }}</textarea></div>
+                <div class="excerpt"><input type="text" name="excerpt" value="{{ post.excerpt }}" placeholder="摘要"></div>
+                <div>
+                    <span>类别</span>
+                    <select name="category" >
+                        {% if categories %}
+                            {% for category in categories %}
+                                {% if category.categoryName == post.category.categoryName %}
+                                    <option value="{{ category.categoryName }}" selected>{{ category.categoryName }}</option>
+                                {% else %}
+                                    <option value="{{ category.categoryName }}">{{ category.categoryName }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="tag"><input type="text" name="tags" placeholder="Tag"></div>
+                <div class="submit-btn"><input type="submit" id="submit-btn" value="确认修改"></div>
+                </form>
+            {% endif %}
+        </div>
+
+        <footer id="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="copyright">
+                            <p class="author">&copy -信石-SCUT-</p>
+                            <a class="ICP" href="http://www.beian.miit.gov.cn/" style="font-size: 60%;">粤ICP备 20032699号</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="{% static 'js/jquery-2.1.3.min.js' %}"></script>
+
+    </body>
+</html>

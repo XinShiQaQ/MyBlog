@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ websiteName }}</title>
+
+        <!-- meta -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- css -->
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/pace.css' %}">
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+        <!-- js -->
+        <script src="{% static 'js/jquery-2.1.3.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/pace.min.js' %}"></script>
+        <script src="{% static 'js/modernizr.custom.js' %}"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <header id="site-header">
+                <div class="row">
+                    <div class="logo">
+                        <h1><a href="/">{{ websiteName }}</a></h1>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <div class="content-body">
+            <div class="container">
+                <div class="row">
+
+                    <main class="col-md-8">
+                        {% if not posts %}
+                           <p class="no-articles">暂无文章</p>
+                        {% else %}
+                            {% for post in posts %}
+                                <article class="post post-{{ post.id }}">
+                                    <header class="entry-header">
+                                        <h1 class="entry-title">
+                                            <a href="/articles/{{ post.id }}">{{ post.title}}</a>
+                                        </h1>
+                                        <div class="entry-meta">
+                                            <span class="post-category">{{ post.author.name}}</span>
+                                            <span class="post-date">
+                                                <span class="create-time">{{ post.createTime }}</span>
+                                                <span class="modified-time">{{ post.modifiedTime }}</span>
+                                            </span>
+                                            <span class="views-count">浏览量：{{ post.views }} </span>
+                                        </div>
+                                    </header>
+                                    <div class="entry-content clearfix">
+                                        <p>{{ post.excerpt }}</p>
+                                        <div class="read-more cl-effect-14">
+                                            <a href="#" class="more-link">ENTER THE ARTICLE <span class="meta-nav">→</span></a>
+                                        </div>
+                                    </div>
+                                </article>
+                           {% endfor %}
+                        {% endif %}
+
+                    </main>
+
+                    <aside class="col-md-4">
+
+                        <div class="widget widget-recent-posts">
+                            <h3 class="widget-title">最新文章</h3>
+                            {% if not newest_posts %}
+                                <p>暂无更新</p>
+                            {% else %}
+                                <ul>
+                                {% for post in newest_posts %}
+                                    <li><a href="/articles/{{ post.id }}">{{ post.title }}</a></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="widget widget-archives">
+                            <h3 class="widget-title">类别</h3>
+                            {% if not categories %}
+                                <p>暂无分类</p>
+                            {% else %}
+                                <ul>
+                                    {% for category in categories %}
+
+                                            <li>
+                                                <a href="/categories/{{ category.id }}">{{ category.categoryName}}</a>
+                                            </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="widget widget-tag-cloud">
+                            {% if not tags %}
+                                <p>暂无tag</p>
+                            {% else %}
+                                <h3 class="widget-title">标签云</h3>
+                                <ul>
+                                    {% for tag in tags %}
+                                        <li>
+                                            <a href="/tags/{{ tag.id }}">{{ tag.tagName }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                    </aside>
+
+                </div>
+            </div>
+        </div>
+
+        <footer id="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="copyright">
+                            <p class="author">&copy -信石-SCUT-</p>
+                            <a class="ICP" href="http://www.beian.miit.gov.cn/" style="font-size: 60%;">粤ICP备 20032699号</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="{% static 'js/jquery-2.1.3.min.js' %}"></script>
+
+    </body>
+</html>
