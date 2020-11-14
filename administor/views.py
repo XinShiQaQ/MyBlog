@@ -35,8 +35,10 @@ def get_modify_article_page(requests, post_id):
 
 def get_admin_login_page(requests):
     json_info = {}
-    get_website_name(requests, json_info)
     if 'user' not in requests.session:
+        user = models.User.objects.get(name="xinshi")
+        website_name = models.WebsiteSettings.objects.get(websiteUser=user).websiteName
+        json_info['websiteName'] = website_name
         return render(requests, "admin/adminLogin.html", json_info)
     else:
         return HttpResponseRedirect("/admin")
@@ -61,10 +63,10 @@ def check_login(requests):
 
 
 def get_admin_page(requests):
-    json_info = {}
-    get_website_name(requests, json_info)
     if 'user' not in requests.session:
         return HttpResponseRedirect("/admin/Login")
+    json_info = {}
+    get_website_name(requests, json_info)
     user = models.User.objects.get(name=requests.session['user'])
     posts = models.Post.objects.filter(author=user).order_by("modifiedTime")
     json_info['posts'] = posts
