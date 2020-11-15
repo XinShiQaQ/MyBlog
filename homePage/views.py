@@ -19,11 +19,11 @@ def get_home_page(request, visiting_author_name=""):
         'website_owner_name': website_settings.websiteUser.name
     }
     request.session['website_owner_name'] = website_settings.websiteUser.name
-    posts = models.Post.objects.all()
+    posts = models.Post.objects.all().order_by('-modifiedTime')
     if posts is not None:
         json_info['posts'] = posts
 
-    newest_posts = posts.order_by('modifiedTime')
+    newest_posts = posts.order_by('-modifiedTime')
     newest_posts = newest_posts[5] if len(newest_posts) >= 5 else newest_posts
     if newest_posts is not None:
         json_info['newest_posts'] = newest_posts

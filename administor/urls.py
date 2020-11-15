@@ -9,5 +9,6 @@ urlpatterns = [
     path('quit', views.quits),
     re_path(r'modifyArticles/(.*)', views.get_modify_article_page),
     re_path(r'modifyConfirm/(.*)', views.modify_confirm),
-    re_path(r'deleteArticle/(.*)', views.delete_article)
+    re_path(r'deleteArticle/(.*)', views.delete_article),
+    path('modifyCategory', views.get_modify_category_page)
 ]

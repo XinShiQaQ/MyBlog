@@ -126,6 +126,7 @@ def modify_confirm(requests, post_id):
         post.save()
     return HttpResponseRedirect('/admin')
 
+
 def delete_article(requests, post_id):
     try:
         post = models.Post.objects.get(id=post_id)
@@ -134,3 +135,7 @@ def delete_article(requests, post_id):
     except Exception:
         return HttpResponse('删除失败')
 
+
+def get_modify_category_page(requests):
+
+    return HttpResponse("gethere")
