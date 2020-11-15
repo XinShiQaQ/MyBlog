@@ -22,7 +22,7 @@ def get_modify_article_page(requests, post_id):
     if 'user' not in requests.session:
         return HttpResponseRedirect("/admin")
     try:
-        categories = models.Category.objects.all()
+        categories = models.Category.objects.filter(owner__name__contains=requests.session['user'])
     except Exception:
         print("No category found will lead to exception")
         categories = None
@@ -89,17 +89,20 @@ def modify_confirm(requests, post_id):
     modifyTime = datetime.datetime.now()
     author = models.User.objects.get(name=requests.session['user'])
     try:
-        if category != "":
-            category = models.Category.objects.get(categoryName=category)
-    except Exception:
+        category = models.Category.objects.get(categoryName=category)
+    except models.Category.DoesNotExist:
         category = models.Category.objects.create(categoryName=category)
+    finally:
+        category.owner.add(author)
     if tags != "":
         tags = tags.split(';')
         for i in range(len(tags)):
             try:
                 tags[i] = models.Tag.objects.get(tagName=tags[i].strip())
-            except Exception:
+            except models.Tag.DoesNotExist:
                 tags[i] = models.Tag.objects.create(tagName=tags[i].strip())
+            finally:
+                tags[i].owner.add(author)
     if post_id == "new":
         createTime = modifyTime
         post = models.Post(title=title, body=body, excerpt=excerpt, modifiedTime=modifyTime,

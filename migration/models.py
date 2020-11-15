@@ -13,6 +13,7 @@ class Category(models.Model):
     分类名
     """
     categoryName = models.CharField(max_length=20, unique=True)
+    owner = models.ManyToManyField(User)
 
 
 class Tag(models.Model):
@@ -20,6 +21,7 @@ class Tag(models.Model):
     Tag名
     """
     tagName = models.CharField(max_length=20, unique=True)
+    owner = models.ManyToManyField(User)
 
 
 class Post(models.Model):
