@@ -2,7 +2,6 @@ from django.shortcuts import render, HttpResponse
 from migration import models
 # Create your views here.
 def get_category_page(requests, cate_id):
-    print(cate_id)
     visiting_author_name = requests.session['website_owner_name']
     try:
         visiting_author = models.User.objects.get(name=visiting_author_name)

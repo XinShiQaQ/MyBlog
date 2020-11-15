@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from migration import models
 from django.core.exceptions import ObjectDoesNotExist
-import datetime
+from django.utils import timezone
 # Create your views here.
 
 
@@ -86,7 +86,7 @@ def modify_confirm(requests, post_id):
         excerpt = body[:100] if len(body) >= 100 else body
     category = requests.GET.get('category')
     tags = requests.GET.get('tags')
-    modifyTime = datetime.datetime.now()
+    modifyTime = timezone.localtime(timezone.now())
     author = models.User.objects.get(name=requests.session['user'])
     try:
         category = models.Category.objects.get(categoryName=category)
